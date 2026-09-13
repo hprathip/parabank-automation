@@ -1,0 +1,9 @@
+target/
+*.class
+.classpath
+.project
+.settings/
+.m2/
+target/cucumber-reports/
+.DS_Store
+Thumbs.db
