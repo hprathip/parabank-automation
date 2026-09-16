@@ -1,8 +1,11 @@
 package com.parabank.automation.utils;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 public class ElementUtil {
 
@@ -24,6 +27,10 @@ public class ElementUtil {
 
 	public static String getText(WebDriver driver, By locator, int timeoutSeconds) {
 		return WaitUtil.waitForElementToBeVisible(driver, locator, timeoutSeconds).getText();
+	}
+	
+	public static List<WebElement> getAllElementsIdentifiedByLocator(WebDriver driver, By locator, int timeoutSeconds) {
+		return WaitUtil.waitForElementsToBeVisible(driver, locator, timeoutSeconds);
 	}
 
 }

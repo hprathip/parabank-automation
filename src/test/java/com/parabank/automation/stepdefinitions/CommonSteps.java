@@ -75,5 +75,11 @@ public class CommonSteps {
 		}
 
 	}
+	
+	@And("the user refreshes the {string} page")
+	public void the_user_refreshes_the_page(String pageTitle) {
+		DriverFactory.getDriver().navigate().refresh();
+		
+	}
 
 }

@@ -38,5 +38,21 @@ public class AccountApiTest {
 	    System.out.println("New Account ID: " + newAccountId);
 	    Assert.assertTrue(newAccountId > 0, "Account ID should be a positive number");
 	}
+	
+	@Test
+	public void verifyGetAccountIdForCustomer() {
+	    int accountId = ApiHelper.getAccountIdForCustomer(12212);
+	    System.out.println("Account ID: " + accountId);
+//	    Assert.assertTrue(newAccountId > 0, "Account ID should be a positive number");
+		
+//		ApiHelper.getAccountIdForCustomer(12212);
+	}
+	
+	@Test
+	public void verifyGetCustomerId() {
+	    int customerId = ApiHelper.getCustomerId("john", "demo");
+	    System.out.println("Customer ID: " + customerId);
+//	    Assert.assertTrue(newAccountId > 0, "Account ID should be a positive number");
+	}
 
 }

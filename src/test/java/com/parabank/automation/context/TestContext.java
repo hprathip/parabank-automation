@@ -1,6 +1,7 @@
 package com.parabank.automation.context;
 
 import com.parabank.automation.factory.DriverFactory;
+import com.parabank.automation.pages.AccountActivityPage;
 import com.parabank.automation.pages.AccountServicesPage;
 import com.parabank.automation.pages.AccountsOverviewPage;
 import com.parabank.automation.pages.HomePage;
@@ -13,14 +14,15 @@ public class TestContext {
 	private AccountsOverviewPage accountsOverviewPage;
 	private RegistrationPage registrationPage;
 	private AccountServicesPage accountServicesPage;
-	
+	private AccountActivityPage accountActivityPage;
+
 	private SideNavPage sideNavPage;
 
 	public SideNavPage getSideNavPage() {
-	    if (sideNavPage == null) {
-	        sideNavPage = new SideNavPage(DriverFactory.getDriver());
-	    }
-	    return sideNavPage;
+		if (sideNavPage == null) {
+			sideNavPage = new SideNavPage(DriverFactory.getDriver());
+		}
+		return sideNavPage;
 	}
 
 	public HomePage getHomePage() {
@@ -53,6 +55,14 @@ public class TestContext {
 		}
 
 		return accountServicesPage;
+	}
+
+	public AccountActivityPage getAccountActivityPage() {
+		if (accountActivityPage == null) {
+			accountActivityPage = new AccountActivityPage(DriverFactory.getDriver());
+		}
+
+		return accountActivityPage;
 	}
 
 }

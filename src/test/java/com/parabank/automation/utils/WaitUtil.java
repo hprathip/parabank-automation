@@ -1,6 +1,7 @@
 package com.parabank.automation.utils;
 
 import java.time.Duration;
+import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -23,6 +24,11 @@ public class WaitUtil {
 	public static boolean waitForUrlContains(WebDriver driver, String endpoint, int timeoutSeconds) {
 		return new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds))
 				.until(ExpectedConditions.urlContains(endpoint));
+	}
+	
+	public static List<WebElement> waitForElementsToBeVisible(WebDriver driver, By locator, int timeoutSeconds){
+		return new WebDriverWait(driver, Duration.ofSeconds(timeoutSeconds))
+				.until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
 	}
 
 }

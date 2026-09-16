@@ -41,6 +41,7 @@ public class RegistrationSteps {
 		Map<String, String> data = dataTable.asMap(String.class, String.class);
 		lastRegistrationData = data;
 		uniqueUsername = data.get("username") + System.currentTimeMillis();
+		log.info("Username: "+uniqueUsername);
 		context.getRegistrationPage().registerUser(data.get("firstName"), data.get("lastName"), data.get("address"),
 				data.get("city"), data.get("state"), data.get("zipCode"), data.get("phone"), data.get("ssn"),
 				uniqueUsername, data.get("password"), data.get("confirmPassword"));
