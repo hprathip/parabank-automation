@@ -17,9 +17,9 @@ Feature: Validate the functionality Accounts Overview module
   @requiresLogin @TC_ACC_003 @regression
   Scenario: Verify a newly created account (via API) appears in the Accounts Overview list
     Given the user is redirected to "Accounts Overview" page
-    When the user creates the new "CHECKING" account for the customer using the API
+    When the user creates a new "CHECKING" account for the customer using the API
     And the user refreshes the "Accounts Overview" page
-    Then the user should see the newly created AccountID in the Accounts Overview table
+    Then the user should see the newly created AccountID via API in the Accounts Overview table
 
   @requiresLogin @TC_ACC_004 @regression
   Scenario: Verify the displayed Total matches the sum of individual account balances

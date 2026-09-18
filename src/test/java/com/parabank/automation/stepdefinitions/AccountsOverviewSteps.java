@@ -21,12 +21,8 @@ public class AccountsOverviewSteps {
 
 	private static final int WAIT_FOR_URL_UPDATE = 10;
 
-	private int accountId;
 	private String balanceFromAccountOverviewTable;
 	private String availableAmountFromAccountOverviewTable;
-
-	private int customerId;
-	private int newAccountId;
 
 	private double sumOfAllBalancesInAccountsOverviewTable;
 	private double totalBalanceShownInAccountsOverviewTable;
@@ -75,16 +71,16 @@ public class AccountsOverviewSteps {
 	public void the_user_clicks_on_an_account_number_link_in_the_table() {
 		int customerId = ApiHelper.getCustomerId(ConfigReader.getProperty("valid.username"),
 				ConfigReader.getProperty("valid.password"));
-		accountId = ApiHelper.getAccountIdForCustomer(customerId);
+		context.setExistingAccountId(ApiHelper.getAccountIdForCustomer(customerId));
 
-		log.info("clicking the Account: " + accountId + " from the Accounts Overview table");
+		log.info("clicking the Account: " + context.getExistingAccountId() + " from the Accounts Overview table");
 
 		balanceFromAccountOverviewTable = context.getAccountsOverviewPage()
-				.getBalanceFromAccountOverviewTableForAccountId(accountId);
+				.getBalanceFromAccountOverviewTableForAccountId(context.getExistingAccountId());
 		availableAmountFromAccountOverviewTable = context.getAccountsOverviewPage()
-				.getAvailableAmountFromAccountOverviewTableForAccountId(accountId);
+				.getAvailableAmountFromAccountOverviewTableForAccountId(context.getExistingAccountId());
 
-		context.getAccountsOverviewPage().clickAccountIdHyperlink(accountId);
+		context.getAccountsOverviewPage().clickAccountIdHyperlink(context.getExistingAccountId());
 
 	}
 
@@ -93,59 +89,33 @@ public class AccountsOverviewSteps {
 		Assert.assertTrue(WaitUtil.waitForUrlContains(DriverFactory.getDriver(), "activity", WAIT_FOR_URL_UPDATE),
 				"The user is not navigated to the account acitvity page");
 
-		Assert.assertTrue(WaitUtil.waitForUrlContains(DriverFactory.getDriver(), String.valueOf(accountId), WAIT_FOR_URL_UPDATE),
-				"The user is not navigated to the account acitvity page of the account ID selected: "+accountId);
+		Assert.assertTrue(
+				WaitUtil.waitForUrlContains(DriverFactory.getDriver(), String.valueOf(context.getExistingAccountId()),
+						WAIT_FOR_URL_UPDATE),
+				"The user is not navigated to the account acitvity page of the account ID selected: "
+						+ context.getExistingAccountId());
 
 	}
 
 	@And("the user should see the matching Account Number, Account Type, Balance, and Available amount in the Account activity page")
 	public void the_user_should_see_the_matching_in_the_account_activity_page() {
-		Assert.assertEquals(context.getAccountActivityPage().getAccountIdFromAccountActivityPage(), accountId,
+		Assert.assertEquals(context.getAccountActivityPage().getAccountIdFromAccountActivityPage(),
+				context.getExistingAccountId(),
 				"The account Id in Account activity page doesn't match the account Id clicked in the Accounts Overview page");
 		Assert.assertEquals(context.getAccountActivityPage().getBalanceFromAccountActivityPage(),
-				balanceFromAccountOverviewTable, "The balance shown in Account activity page for accountID: "
-						+ accountId + " doesn't match the balance shown in the Accounts Overview page");
+				balanceFromAccountOverviewTable,
+				"The balance shown in Account activity page for accountID: " + context.getExistingAccountId()
+						+ " doesn't match the balance shown in the Accounts Overview page");
 		Assert.assertEquals(context.getAccountActivityPage().getAvailableBalanceFromAccountActivityPage(),
 				availableAmountFromAccountOverviewTable,
-				"The available amount shown in Account activity page for accountID: " + accountId
+				"The available amount shown in Account activity page for accountID: " + context.getExistingAccountId()
 						+ " doesn't match the available amount shown in the Accounts Overview page");
 	}
 
-	@When("the user creates the new {string} account for the customer using the API")
-	public void the_user_creates_the_new_account_for_the_customer_using_the_api(String accountType) {
-		customerId = ApiHelper.getCustomerId(ConfigReader.getProperty("valid.username"),
-				ConfigReader.getProperty("valid.password"));
-
-		log.info("The customerId of the logged in customer is: " + customerId);
-
-		accountId = ApiHelper.getAccountIdForCustomer(customerId);
-
-		int accountTypeId = -1;
-
-		switch (accountType.toLowerCase()) {
-		case "checking":
-			accountTypeId = 0;
-			break;
-		case "savings":
-			accountTypeId = 1;
-			break;
-		case "loan":
-			accountTypeId = 2;
-			break;
-		default:
-			log.info("CHECKING, SAVINGS, LOAN -- are the only account types allowed.");
-		}
-
-		newAccountId = ApiHelper.createAccount(customerId, accountTypeId, accountId);
-
-		log.info("The new account: " + newAccountId + " is created for the customer: " + customerId);
-
-	}
-
-	@Then("the user should see the newly created AccountID in the Accounts Overview table")
+	@Then("the user should see the newly created AccountID via API in the Accounts Overview table")
 	public void the_user_should_see_the_newly_created_accountID_in_the_accounts_overview_table() {
-		Assert.assertTrue(context.getAccountsOverviewPage().isAccountIdHyperlinkPresent(accountId),
-				"The newly created account: " + accountId + " for the customer: " + customerId
+		Assert.assertTrue(context.getAccountsOverviewPage().isAccountIdHyperlinkPresent(context.getNewAccountIdCreatedViaAPI()),
+				"The newly created account: " + context.getNewAccountIdCreatedViaAPI() + " for the customer: " + context.getCustomerId()
 						+ " is not shown in the Accounts Overview table");
 	}
 

@@ -34,5 +34,7 @@ public class SideNavPage {
 		ElementUtil.clickElement(driver, accountsOverviewLink, WAIT_FOR_ELEMENT_CLICKABLE);
 	}
 
-	// remaining links added as each module actually needs them
+	public void clickOpenNewAccountLink() {
+		ElementUtil.clickElement(driver, openNewAccountLink, WAIT_FOR_ELEMENT_CLICKABLE);
+	}
 }

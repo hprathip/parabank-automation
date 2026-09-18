@@ -40,6 +40,8 @@ public class AccountsOverviewPage {
 
 	private By listOfBalancesInAccountsOverviewTable = By.xpath("//table[@id='accountTable']/tbody/tr/td[2]");
 
+	private By accountIdWithNegativeBalance = By.xpath("//td[starts-with(text(), '-')]/preceding-sibling::td");
+
 	public AccountsOverviewPage(WebDriver driver) {
 		this.driver = driver;
 	}
@@ -186,6 +188,10 @@ public class AccountsOverviewPage {
 
 		return BigDecimal.valueOf(Double.parseDouble(finalBal.toString())).setScale(2, RoundingMode.HALF_UP)
 				.doubleValue();
+	}
+
+	public int getAccountIdWithNegativeBalance() {
+		return Integer.parseInt(ElementUtil.getText(driver, accountIdWithNegativeBalance, WAIT_FOR_ELEMENT_VISIBLE));
 	}
 
 }
